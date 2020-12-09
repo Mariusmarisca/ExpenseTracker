@@ -7,20 +7,21 @@
         <meta name="description" content="app,expense,tracker">
         <meta name="author" content="Marisca Marius">
         <link rel="stylesheet" href="bundles/bootstrap-4.5.3-dist/css/bootstrap.css">
+        <link rel="stylesheet" href="bundles/font-awesome/css/all.css">
         <link rel="stylesheet" type="text/css" href="resources/main.css">
     </head>
     <body>
-        <div class="container">
+        <div class="container-fluid">
             <h1 class="text-center">Expense Tracker</h1>
             <h2 class="text-success text-center">Add an item here</h2>
             <form>
                 <div class="row">
-                    <label class="col-1" for="expense">Name:</label>
-                    <input class="col-11" id="expense" name="itemAdded" type="text" placeholder="Where was the expense made?">
-                    <label class="col-1" for="date">Date:</label>
-                    <input class="col-5" name="itemAdded" type="date" id="date">
-                    <label class="col-1" for="amount">Amount:</label>
-                    <input class="col-50" name="itemAdded" type="text" id="amount">
+                    <label class="col-md-4" for="expense">Name:</label>
+                    <input class="col-md-8" id="expense" name="itemAdded" type="text" placeholder="Where was the expense made?">
+                    <label class="col-md-1" for="date">Date:</label>
+                    <input class="col-md-5" name="itemAdded" type="date" id="date">
+                    <label class="col-md-1" for="amount">Amount:</label>
+                    <input class="col-md-5" name="itemAdded" type="text" id="amount" placeholder="0 RON">
                     <button id="addButton" type="button" class="col-md-4 offset-md-4">Add Expense</button>
                 </div>
             </form>

@@ -18,18 +18,47 @@ console.log('incomeInput',incomeInput);
 const incomeButton = document.getElementById('addIncome');
 console.log('incomeButton', incomeButton);
 let ENTRY_LIST = [];
+const balanceWrapper = document.getElementsByClassName('balance-wrapper');
+console.log('balanceWrapper', balanceWrapper);
+const totalIncome = document.getElementsByClassName('totalIncome');
+const showIncome = document.getElementById('showIncome');
+const totalExpenses = document.getElementsByClassName('totalExpenses');
+const showExpenses = document.getElementById('showExpenses');
+const totalBalance = document.getElementsByClassName('totalBalance');
+const showBalance = document.getElementById('showBalance');
+
 
 incomeButton.addEventListener('click', function(e){
     e.preventDefault();
-    if(!incomeButton) return;
+    if(!incomeInput.value) return;
 
     let incomes= {
+        type: incomeInput.id,
         amount:parseFloat(incomeInput.value)
     };
     console.log('incomes', incomes);
     ENTRY_LIST.push(incomes);
     console.log('ENTRY_LIST', ENTRY_LIST);
-})
+    clearInput([incomeInput]);
+    function clearInput(inputsArray){
+        inputsArray.forEach(
+            input => {
+                input.value = "";
+            }
+        )
+    }
+    incomeTotal = calculateIncome(income,ENTRY_LIST);
+    function calculateIncome(type,ENTRY_LIST){
+        let sum = 0;
+        ENTRY_LIST.forEach( entry => {
+            if (entry.type === "income") {
+                sum += entry.amount;}
+        })
+        return sum;
+        }
+       showIncome.innerHTML=incomeTotal;
+        console.log(incomeTotal);    
+   })
 
 
 addButton.addEventListener('click', function(e){
@@ -37,40 +66,70 @@ addButton.addEventListener('click', function(e){
      if (!nameInput.value || !dateInput.value || !amountInput.value) return;
      
      let expenses = {
+        type: nameInput.id,
         place:nameInput.value,
         date:dateInput.value,
         amount:parseFloat(amountInput.value)}
     console.log('expenses', expenses);
      ENTRY_LIST.push(expenses);
      console.log('ENTRY_LIST', ENTRY_LIST);
-
      clearInput([nameInput,dateInput,amountInput]);
      function clearInput(inputsArray){
          inputsArray.forEach(input => {
              input.value= "";
          })
-     }
+         };
 
      function addTransactionDOM (expenses) {
-     
         const item = document.createElement("li");
         item.innerHTML = `${expenses.place}    ${expenses.date}    ${expenses.amount} RON`;
         console.log('item', item);
         const removeBtn = document.createElement('i');
-
-        //aici nu stiu cum sa fac selectia ca in momentul in care apas Gunoiul Rosu din dreptul fiecarui element sa dispara acel element.
         removeBtn.innerHTML = `<i class="fas fa-trash" id="removeButton"></i>`;
         console.log('removeBtn', removeBtn);
         expenseList.append(item);
         item.appendChild(removeBtn);
-        removeButton =document.getElementById('removeButton');
-        console.log('removeButton', removeButton);
-        removeButton.addEventListener('click', function(e){
-            expenseList.remove(this.item);
-        })
-     };
-      
+        console.log(ENTRY_LIST.length);
+
+        removeBtn.addEventListener('click', function(e){
+        expenseList.removeChild(item);
+        ENTRY_LIST.splice(this,1)
+        console.log(ENTRY_LIST.length);
+           });
+
+        expenseTotal = calculateExpenses(expense,ENTRY_LIST);
+        function calculateExpenses (type,ENTRY_LIST) {
+         let sum = 0;
+         ENTRY_LIST.forEach(
+         entry => {
+             if( entry.type === "expense") {
+                 sum += entry.amount;}
+             });
+         return sum;
+         }
+     showExpenses.innerHTML = expenseTotal;
+    }
      addTransactionDOM(expenses);
-    console.log(ENTRY_LIST.lenght); 
-})
-       
+
+     balanceTotal = calculateBalance(incomeTotal,expenseTotal);
+     function calculateBalance(incomeTotal,expenseTotal){
+         return incomeTotal - expenseTotal;
+     }
+    // function updateBalance(){
+       // incomeTotal = calculateIncome(income,ENTRY_LIST);
+      //  expenseTotal = calculateExpenses(expense,ENTRY_LIST);
+       // balanceTotal = calculateBalance(incomeTotal,expenseTotal);
+    
+       // showIncome.innerHTML = `<p>${incomeTotal} RON</p>`;
+       // showExpenses.innerHTML = `<p>${expenseTotal} RON</p>`;
+       // showBalance.innerHTML = `<p>${balanceTotal} RON</p>`;
+    
+    //  };
+      showBalance.innerHTML = balanceTotal;
+      
+    });
+
+
+     
+
+  

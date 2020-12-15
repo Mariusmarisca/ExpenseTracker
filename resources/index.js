@@ -44,21 +44,20 @@ incomeButton.addEventListener('click', function(e){
         inputsArray.forEach(
             input => {
                 input.value = "";
-            }
-        )
-    }
+            });
+          }
     incomeTotal = calculateIncome(income,ENTRY_LIST);
     function calculateIncome(type,ENTRY_LIST){
         let sum = 0;
         ENTRY_LIST.forEach( entry => {
             if (entry.type === "income") {
                 sum += entry.amount;}
-        })
+        });
         return sum;
-        }
-       showIncome.innerHTML=incomeTotal;
+        };
+       showIncome.innerHTML=`<p>${incomeTotal} RON</p>`;
         console.log(incomeTotal);    
-   })
+   });
 
 
 addButton.addEventListener('click', function(e){
@@ -106,8 +105,8 @@ addButton.addEventListener('click', function(e){
                  sum += entry.amount;}
              });
          return sum;
-         }
-     showExpenses.innerHTML = expenseTotal;
+         };
+     showExpenses.innerHTML = `<p>${expenseTotal} RON</p>`;
     }
      addTransactionDOM(expenses);
 
@@ -115,6 +114,8 @@ addButton.addEventListener('click', function(e){
      function calculateBalance(incomeTotal,expenseTotal){
          return incomeTotal - expenseTotal;
      }
+
+    // La functia asta nu stiu daca ii ok scrisa aici si unde trebuie sa o trigger-uiesc?
     // function updateBalance(){
        // incomeTotal = calculateIncome(income,ENTRY_LIST);
       //  expenseTotal = calculateExpenses(expense,ENTRY_LIST);
@@ -125,7 +126,7 @@ addButton.addEventListener('click', function(e){
        // showBalance.innerHTML = `<p>${balanceTotal} RON</p>`;
     
     //  };
-      showBalance.innerHTML = balanceTotal;
+      showBalance.innerHTML = `<p>${balanceTotal} RON</p>`;
       
     });
 

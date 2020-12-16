@@ -1,4 +1,5 @@
 let input=document.getElementsByName('itemAdded');
+// cand nu mai ai nevoie de console-uri pt debug e super ok sa le stergi, iti aglomereaza foarte tare codul
 console.log('inputValue', input);
 let addButton=document.getElementById('addButton');
 console.log('addButton', addButton);
@@ -64,6 +65,7 @@ addButton.addEventListener('click', function(e){
     e.preventDefault();
      if (!nameInput.value || !dateInput.value || !amountInput.value) return;
      
+    //  cred ca pot sa cureti putin codul, nu ai nevoie de toate declaratiile astea si de in functii in callback-ul de click pe add, ci poti sa le definesti/declari in afara si doar sa le folosesti aici
      let expenses = {
         type: nameInput.id,
         place:nameInput.value,
@@ -84,6 +86,7 @@ addButton.addEventListener('click', function(e){
         item.innerHTML = `${expenses.place}    ${expenses.date}    ${expenses.amount} RON`;
         console.log('item', item);
         const removeBtn = document.createElement('i');
+        // e messy asa, nu ai nevoie sa faci asa aici si nu cu innerHTML
         removeBtn.innerHTML = `<i class="fas fa-trash" id="removeButton"></i>`;
         console.log('removeBtn', removeBtn);
         expenseList.append(item);
@@ -115,6 +118,8 @@ addButton.addEventListener('click', function(e){
          return incomeTotal - expenseTotal;
      }
 
+    // e ok scrisa la nivelul celorlalte si probabil doresti sa o apelezi la click pe functionalitatea de add
+
     // La functia asta nu stiu daca ii ok scrisa aici si unde trebuie sa o trigger-uiesc?
     // function updateBalance(){
        // incomeTotal = calculateIncome(income,ENTRY_LIST);
@@ -126,6 +131,8 @@ addButton.addEventListener('click', function(e){
        // showBalance.innerHTML = `<p>${balanceTotal} RON</p>`;
     
     //  };
+    // good practice este sa selectezi elementul din DOM, <p> in acest caz si sa adaugi text cu informatia pe care o doresti.
+    // nu este asa de ok sa adaugi html de fiecare data
       showBalance.innerHTML = `<p>${balanceTotal} RON</p>`;
       
     });

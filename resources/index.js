@@ -116,21 +116,21 @@ addButton.addEventListener('click', function(e){
      }
 
     // La functia asta nu stiu daca ii ok scrisa aici si unde trebuie sa o trigger-uiesc?
-    // function updateBalance(){
-       // incomeTotal = calculateIncome(income,ENTRY_LIST);
-      //  expenseTotal = calculateExpenses(expense,ENTRY_LIST);
-       // balanceTotal = calculateBalance(incomeTotal,expenseTotal);
-    
-       // showIncome.innerHTML = `<p>${incomeTotal} RON</p>`;
-       // showExpenses.innerHTML = `<p>${expenseTotal} RON</p>`;
-       // showBalance.innerHTML = `<p>${balanceTotal} RON</p>`;
-    
-    //  };
+       
       showBalance.innerHTML = `<p>${balanceTotal} RON</p>`;
       
     });
 
-
+    //function updateBalance(){
+     //   incomeTotal = calculateIncome(income,ENTRY_LIST);
+     //   expenseTotal = calculateExpenses(expense,ENTRY_LIST);
+     //   balanceTotal = calculateBalance(incomeTotal,expenseTotal);
+     
+     //   showIncome.innerHTML = `<p>${incomeTotal} RON</p>`;
+     //   showExpenses.innerHTML = `<p>${expenseTotal} RON</p>`;
+     //   showBalance.innerHTML = `<p>${balanceTotal} RON</p>`;
+     
+        // };
      
 
   

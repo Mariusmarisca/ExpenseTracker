@@ -18,112 +18,101 @@ const totalExpenses = document.getElementsByClassName('totalExpenses');
 const showExpenses = document.getElementById('showExpenses');
 const totalBalance = document.getElementsByClassName('totalBalance');
 const showBalance = document.getElementById('showBalance');
+const deleteBtn = document.createElement('i');
 
 
 
 incomeButton.addEventListener('click', function(e){
     e.preventDefault();
     if(!incomeInput.value) return;
-
     let incomes= {
         type: incomeInput.id,
         amount:parseFloat(incomeInput.value)
     };
-    console.log('incomes', incomes);
     ENTRY_LIST.push(incomes);
     console.log('ENTRY_LIST', ENTRY_LIST);
-    clearInput([incomeInput]);
-    function clearInput(inputsArray){
-        inputsArray.forEach(
-            input => {
-                input.value = "";
-            });
-          }
-    incomeTotal = calculateIncome(income,ENTRY_LIST);
-    function calculateIncome(type,ENTRY_LIST){
-        let sum = 0;
-        ENTRY_LIST.forEach( entry => {
-            if (entry.type === "income") {
-                sum += entry.amount;}
-        });
-        return sum;
-        };
-       showIncome.innerHTML=`<p>${incomeTotal} RON</p>`;
-        console.log(incomeTotal);  
-       updateBalance();
+    updateBalance();
+    clearInput([incomeInput]); 
    });
 
 
 addButton.addEventListener('click', function(e){
     e.preventDefault();
-     if (!nameInput.value || !dateInput.value || !amountInput.value) return;
-     
+     if (!nameInput.value || !dateInput.value || !amountInput.value) return;   
     //  cred ca pot sa cureti putin codul, nu ai nevoie de toate declaratiile astea si de in functii in callback-ul de click pe add, ci poti sa le definesti/declari in afara si doar sa le folosesti aici
      let expenses = {
+         id: 0,
         type: nameInput.id,
         place:nameInput.value,
         date:dateInput.value,
         amount:parseFloat(amountInput.value)}
      ENTRY_LIST.push(expenses);
-     clearInput([nameInput,dateInput,amountInput]);
-     function clearInput(inputsArray){
-         inputsArray.forEach(input => {
-             input.value= "";
-         })
-         };
+     updateBalance();
+     clearInput([nameInput,dateInput,amountInput])
+      showItem(expenseList,expenses);        
+    });
+    
+   
+    //Helping Functions
 
-     function addTransactionDOM (expenses) {
-        const item = document.createElement("li");
-        item.innerHTML = `${expenses.place}    ${expenses.date}    ${expenses.amount} RON`;
-        const removeBtn = document.createElement('i');
-        // e messy asa, nu ai nevoie sa faci asa aici si nu cu innerHTML
-        removeBtn.innerHTML = `<i class="fas fa-trash" id="removeButton"></i>`;
-        expenseList.append(item);
-        item.appendChild(removeBtn);
-        
-
-
-        removeBtn.addEventListener('click', function(e){
-        expenseList.removeChild(item);
-        ENTRY_LIST.splice(this,1);
-           });
-
-        expenseTotal = calculateExpenses(expense,ENTRY_LIST);
-        function calculateExpenses (type,ENTRY_LIST) {
-         let sum = 0;
-         ENTRY_LIST.forEach(
-         entry => {
-             if( entry.type === "expense") {
-                 sum += entry.amount;}
-             });
-         return sum;
-         };
-     showExpenses.innerHTML = `<p>${expenseTotal} RON</p>`;
-    }
-     addTransactionDOM(expenses);
-
-     balanceTotal = calculateBalance(incomeTotal,expenseTotal);
-     function calculateBalance(incomeTotal,expenseTotal){
-         return incomeTotal - expenseTotal;
+    function showItem (expenseList,expenses){
+        const entry = document.createElement('li')
+         entry.innerHTML= `
+        <li id=${expenses.id} class=${expenses.type}>
+        <div class="entry">${expenses.place}</div>
+        <div id="date">${expenses.date}</div>
+        <div id="amount">${expenses.amount}RON</div>
+        </li>
+        `;
+        deleteBtn.innerHTML = `<i class="fas fa-trash-alt"></i>`
+        deleteBtn.id = "deleteButton";   
+        entry.appendChild(deleteBtn);
+        expenseList.appendChild(entry);
+        deleteBtn.addEventListener('click', function(e){
+            e.preventDefault();
+            deleteItem(entry);
+        })
      }
 
-    // e ok scrisa la nivelul celorlalte si probabil doresti sa o apelezi la click pe functionalitatea de add
+     function deleteItem(entry) {
+         ENTRY_LIST.splice(entry,1);
+         expenseList.removeChild(entry,1)
+         updateBalance();
+     }
 
-    // La functia asta nu stiu daca ii ok scrisa aici si unde trebuie sa o trigger-uiesc?
-       
-     // showBalance.innerHTML = `<p>${balanceTotal} RON</p>`;
-      updateBalance()
-    });
+    function calculateTotal(type,ENTRY_LIST){
+        let sum = 0;
+        ENTRY_LIST.forEach( entry => {
+            if (entry.type === type) {
+                sum += entry.amount;}
+        });
+        return sum;
+        };
+
+    incomeTotal = calculateTotal("income",ENTRY_LIST);
+    expenseTotal = calculateTotal("expense",ENTRY_LIST);
+    balanceTotal = calculateBalance(incomeTotal,expenseTotal);
+
+    function calculateBalance(incomeTotal,expenseTotal){
+        return incomeTotal - expenseTotal;
+    }
+
     function updateBalance(){
-        incomeTotal = calculateIncome(income,ENTRY_LIST);
-        expenseTotal = calculateIncome(expense, ENTRY_LIST);
+        incomeTotal = calculateTotal("income",ENTRY_LIST);
+        expenseTotal = calculateTotal("expense", ENTRY_LIST);
         balanceTotal = calculateBalance(incomeTotal,expenseTotal);
      
         showIncome.innerHTML = `<p>${incomeTotal} RON</p>`;
         showExpenses.innerHTML = `<p>${expenseTotal} RON</p>`;
         showBalance.innerHTML = `<p>${balanceTotal} RON</p>`;
-     
-         };
+        };
+
+    function clearInput(inputsArray){
+        inputsArray.forEach(
+            input => {
+                input.value = "";});
+              } 
+    
     
      
 

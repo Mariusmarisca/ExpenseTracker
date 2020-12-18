@@ -24,7 +24,7 @@ ul li {width:100%;
        border-bottom: 1px solid grey;;
        text-decoration: none;
        display: flex;
-       justify-content: space-between;
+       justify-content: space-around;
        margin-bottom:10px;}
 
 ul i {width:30px;

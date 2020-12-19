@@ -18,7 +18,6 @@ const totalExpenses = document.getElementsByClassName('totalExpenses');
 const showExpenses = document.getElementById('showExpenses');
 const totalBalance = document.getElementsByClassName('totalBalance');
 const showBalance = document.getElementById('showBalance');
-const deleteBtn = document.createElement('i');
 
 
 
@@ -26,6 +25,7 @@ incomeButton.addEventListener('click', function(e){
     e.preventDefault();
     if(!incomeInput.value) return;
     let incomes= {
+        id: ENTRY_LIST[ENTRY_LIST.length - 1]?.id + 1 || 0,
         type: incomeInput.id,
         amount:parseFloat(incomeInput.value)
     };
@@ -41,7 +41,7 @@ addButton.addEventListener('click', function(e){
      if (!nameInput.value || !dateInput.value || !amountInput.value) return;   
     //  cred ca pot sa cureti putin codul, nu ai nevoie de toate declaratiile astea si de in functii in callback-ul de click pe add, ci poti sa le definesti/declari in afara si doar sa le folosesti aici
      let expenses = {
-         id: 0,
+        id: ENTRY_LIST[ENTRY_LIST.length - 1]?.id + 1 || 0,
         type: nameInput.id,
         place:nameInput.value,
         date:dateInput.value,
@@ -57,26 +57,30 @@ addButton.addEventListener('click', function(e){
 
     function showItem (expenseList,expenses){
         const entry = document.createElement('li')
+        entry.setAttribute('id', expenses.id)
+        entry.setAttribute('class', expenses.type)
          entry.innerHTML= `
-        <li id=${expenses.id} class=${expenses.type}>
         <div class="entry">${expenses.place}</div>
         <div id="date">${expenses.date}</div>
         <div id="amount">${expenses.amount}RON</div>
-        </li>
         `;
-        deleteBtn.innerHTML = `<i class="fas fa-trash-alt"></i>`
-        deleteBtn.id = "deleteButton";   
+        const deleteBtn = document.createElement('i');
+        deleteBtn.setAttribute('class', "fas fa-trash-alt");
         entry.appendChild(deleteBtn);
-        expenseList.appendChild(entry);
         deleteBtn.addEventListener('click', function(e){
             e.preventDefault();
             deleteItem(entry);
         })
+        expenseList.appendChild(entry);
      }
 
      function deleteItem(entry) {
-         ENTRY_LIST.splice(entry,1);
-         expenseList.removeChild(entry,1)
+         // pentru ca vine ca si string si nu poti face === la linia urmatoare, 
+         // ai putea sa faci == fara si n-ar mai trbui sa-l transformi in number
+        const entry_id = Number(entry.id);
+        const elementToDeleteId = ENTRY_LIST.findIndex(entryElement => entryElement.id === entry_id);
+        ENTRY_LIST.splice(elementToDeleteId,1);
+         expenseList.removeChild(entry)
          updateBalance();
      }
 

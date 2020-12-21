@@ -75,8 +75,6 @@ addButton.addEventListener('click', function(e){
      }
 
      function deleteItem(entry) {
-         // pentru ca vine ca si string si nu poti face === la linia urmatoare, 
-         // ai putea sa faci == fara si n-ar mai trbui sa-l transformi in number
         const entry_id = Number(entry.id);
         const elementToDeleteId = ENTRY_LIST.findIndex(entryElement => entryElement.id === entry_id);
         ENTRY_LIST.splice(elementToDeleteId,1);
